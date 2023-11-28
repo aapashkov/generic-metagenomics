@@ -30,14 +30,3 @@ else
   wget -qO - "${url}" | tar -C "${tmp}/krakenDB" -xzf - 
   mv "${tmp}/krakenDB" "${out}/."
 fi
-
-# Download RGI database if it wasn't done so already
-url="https://card.mcmaster.ca/download/0/broadstreet-v3.2.8.tar.bz2"
-if [[ -d "${out}/localDB" ]]; then
-  log "  Skipping CARD download"
-else
-  log "  Downloading CARD"
-  mkdir -p "${tmp}/localDB"
-  wget -qO - "${url}" | tar -C "${tmp}/localDB" -xjf - ./card.json 
-  mv "${tmp}/localDB" "${out}/."
-fi
