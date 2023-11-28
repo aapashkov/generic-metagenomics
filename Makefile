@@ -52,7 +52,7 @@ assemble: trim
 > @echo $(shell date +'%D %T:') Assembly finished >&2
 .PHONY: assemble
 
-classify: download-dbs assemble
+classify: assemble download-dbs
 > @echo $(shell date +'%D %T:') Classification started >&2
 > ./src/docker-run.sh rush -i accessions.txt -j $(cpus) ./src/classify.sh {}
 > @echo $(shell date +'%D %T:') Classification finished >&2
