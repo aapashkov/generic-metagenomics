@@ -52,11 +52,11 @@ assemble: trim
 > @echo $(shell date +'%D %T:') Assembly finished >&2
 .PHONY: assemble
 
-classify: assemble download-dbs
+classify-reads: trim download-dbs
 > @echo $(shell date +'%D %T:') Classification started >&2
-> ./src/docker-run.sh rush -i accessions.txt -j $(cpus) ./src/classify.sh {}
+> ./src/docker-run.sh rush -i accessions.txt -j $(cpus) ./src/classify-reads.sh {}
 > @echo $(shell date +'%D %T:') Classification finished >&2
-.PHONY: classify
+.PHONY: classify-reads
 
 annotate-functions: trim
 > @echo $(shell date +'%D %T:') Functional annotation started >&2
