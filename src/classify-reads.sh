@@ -27,7 +27,7 @@ trap "rm -rf ${tmp}" EXIT
 
 # Skip accession if already classified
 if [[ -f "${out}/${1}.output.gz" ]]; then
-  log "  Skipping ${1} on read level"
+  log "  Skipping ${1}"
 else
 
   output="${tmp}/${1}.output"
@@ -54,6 +54,5 @@ else
   mv ${output}.gz ${out}/.
   mv ${report}.gz ${out}/.
 
-  log "  Finished classifying ${1} on read level"
+  log "  Finished with ${1}"
 fi
-

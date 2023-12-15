@@ -63,3 +63,9 @@ annotate-functions: trim
 > ./src/docker-run.sh rush -i accessions.txt -j $(cpus) ./src/annotate-functions.sh {}
 > @echo $(shell date +'%D %T:') Functional annotation finished >&2
 .PHONY: annotate-functions
+
+extract-clavibacter: classify-reads
+> @echo $(shell date +'%D %T:') Clavibacter extraction started >&2
+> ./src/docker-run.sh rush -i accessions.txt -j $(cpus) ./src/extract-clavibacter.sh {}
+> @echo $(shell date +'%D %T:') Clavibacter extraction finished >&2
+.PHONY: extract-clavibacter
