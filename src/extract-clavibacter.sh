@@ -19,8 +19,8 @@ cpus=$(cat cpus.conf)
 
 # Set directories
 inp="data/reads/trimmed"
-koutput="data/taxonomy/reads/${1}.output"
-kreport="data/taxonomy/reads/${1}.report"
+koutput="data/taxonomy/read-level/${1}.output"
+kreport="data/taxonomy/read-level/${1}.report"
 out="data/reads/extracted/clavibacter"
 tmp=${out}"/.tmp-extract-clavibacter-${1}"
 mkdir -p ${tmp}
