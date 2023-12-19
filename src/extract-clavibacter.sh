@@ -36,8 +36,8 @@ else
 
     # Paired end read extraction
     extract_kraken_reads.py -t 1573 --fastq-output --include-children \
-      -k ${koutput} \
-      -r ${kreport} \
+      -k <(gunzip -c ${koutput}) \
+      -r <(gunzip -c ${kreport}) \
       -s ${inp}/${1}_1.fq.gz \
       -s2 ${inp}/${1}_2.fq.gz \
       -o ${tmp}/${1}_1.fq \
@@ -47,8 +47,8 @@ else
 
     # Single read extraction
     extract_kraken_reads.py -t 1573 --fastq-output --include-children \
-      -k ${koutput} \
-      -r ${kreport} \
+      -k <(gunzip -c ${koutput}) \
+      -r <(gunzip -c ${kreport}) \
       -s ${inp}/${1}.fq.gz \
       -o ${tmp}/${1}.fq > /dev/null 2>&1
   fi
