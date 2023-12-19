@@ -19,8 +19,8 @@ cpus=$(cat cpus.conf)
 
 # Set directories
 inp="data/reads/trimmed"
-koutput="data/taxonomy/reads/${1}.output.gz"
-kreport="data/taxonomy/reads/${1}.report.gz"
+koutput="data/taxonomy/reads/${1}.output"
+kreport="data/taxonomy/reads/${1}.report"
 out="data/reads/extracted/clavibacter"
 tmp=${out}"/.tmp-extract-clavibacter-${1}"
 mkdir -p ${tmp}
@@ -36,8 +36,8 @@ else
 
     # Paired end read extraction
     extract_kraken_reads.py -t 1573 --fastq-output --include-children \
-      -k <(gunzip -c ${koutput}) \
-      -r <(gunzip -c ${kreport}) \
+      -k ${koutput} \
+      -r ${kreport} \
       -s ${inp}/${1}_1.fq.gz \
       -s2 ${inp}/${1}_2.fq.gz \
       -o ${tmp}/${1}_1.fq \
@@ -47,8 +47,8 @@ else
 
     # Single read extraction
     extract_kraken_reads.py -t 1573 --fastq-output --include-children \
-      -k <(gunzip -c ${koutput}) \
-      -r <(gunzip -c ${kreport}) \
+      -k ${koutput} \
+      -r ${kreport} \
       -s ${inp}/${1}.fq.gz \
       -o ${tmp}/${1}.fq > /dev/null 2>&1
   fi

@@ -20,13 +20,13 @@ cpus=$(cat cpus.conf)
 # Create output directories
 db="data/databases/krakenDB"
 inp="data/reads/trimmed"
-out="data/taxonomy/reads"
+out="data/taxonomy/read-level"
 tmp=${out}"/.tmp-classify-${1}"
 mkdir -p ${tmp}
 trap "rm -rf ${tmp}" EXIT
 
 # Skip accession if already classified
-if [[ -f "${out}/${1}.output.gz" ]]; then
+if [[ -f "${out}/${1}.output" ]]; then
   log "  Skipping ${1}"
 else
 
@@ -49,10 +49,9 @@ else
       "${inp}/${1}.fq.gz" > /dev/null 2>&1
   fi
 
-  # Compress output and report, and move them out of tmp directory
-  gzip ${output} ${report}
-  mv ${output}.gz ${out}/.
-  mv ${report}.gz ${out}/.
+  # Move output and report out of tmp directory
+  mv ${output} ${out}/.
+  mv ${report} ${out}/.
 
   log "  Finished with ${1}"
 fi
