@@ -15,7 +15,7 @@ log () {
 cd $(dirname $(dirname $(readlink -f $0)))
 
 # Get number of CPUs from config file
-cpus=$(cat cpus.conf)
+cpu=$(cat cpus.conf)
 
 # Set input and output
 inp="data/reads/trimmed"
