@@ -30,6 +30,8 @@ if [[ -f "${out}/${1}.tar.gz" ]]; then
   log "  Skipping ${1}"
 else
 
+  log "  Binning ${1}"
+
   # Perform binning depending on read file type (single or paired)
   if [[ -f "${reads}/${1}_1.fq.gz" ]]; then
 
@@ -52,6 +54,4 @@ else
   tar -C "${tmp}" -czf "${tmp}/${1}.tar.gz" "${1}"
   chmod 775 "${tmp}/${1}.tar.gz"
   mv "${tmp}/${1}.tar.gz" "${out}/."
-
-  log "  Finished binning ${1}"
 fi

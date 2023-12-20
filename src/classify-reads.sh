@@ -30,6 +30,8 @@ if [[ -f "${out}/${1}.output.gz" ]]; then
   log "  Skipping ${1}"
 else
 
+  log "  Classifying ${1}"
+
   output="${tmp}/${1}.output"
   report="${tmp}/${1}.report"
 
@@ -55,6 +57,4 @@ else
   chmod 775 ${report}.gz
   mv ${output}.gz ${out}/.
   mv ${report}.gz ${out}/.
-
-  log "  Finished with ${1}"
 fi

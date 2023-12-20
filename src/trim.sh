@@ -21,7 +21,7 @@ mcpus=$(expr ${cpus} / 4 + 1) # mifaser cpus
 # Set input and output
 out="data/reads/trimmed"
 tmp=${out}"/.tmp-trim-${1}"
-mkdir -p ${out}
+mkdir -m 775 -p ${out}
 trap "rm -rf ${tmp}" EXIT
 
 # Skip accession if already downloaded and trimmed
@@ -29,8 +29,10 @@ if compgen -G "${out}/${1}*.fq.gz" > /dev/null; then
   log "  Skipping ${1}"
 else
   # Download accession files
+  log "  Downloading ${1}"
   fasterq-dump -e ${cpus} -q -O ${tmp} -t ${tmp} ${1} > /dev/null 2>&1
-  log "  Finished downloading ${1}"
+
+  log "  Trimming ${1}"
 
   # Trim files depending on file type (single or paired)
   if [[ -f "${tmp}/${1}_1.fastq" ]]; then
@@ -49,6 +51,4 @@ else
     chmod 775 "${tmp}/${1}_trimmed.fq.gz"
     mv "${tmp}/${1}_trimmed.fq.gz" "${out}/${1}.fq.gz"
   fi
-
-  log "  Finished trimming ${1}"
 fi
