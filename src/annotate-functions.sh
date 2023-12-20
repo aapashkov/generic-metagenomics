@@ -15,7 +15,7 @@ log () {
 cd $(dirname $(dirname $(readlink -f $0)))
 
 # Get number of CPUs from config file
-cpu=$(cat cpus.conf)
+cpus=$(cat cpus.conf)
 
 # Set input and output
 inp="data/reads/trimmed"
@@ -28,16 +28,17 @@ trap "rm -rf ${tmp}" EXIT
 if [[ -d "${out}/${1}.tar.gz" ]]; then
   log "  Skipping ${1}"
 else
+  log "  Annotating functions of ${1}"
 
   # Annotate files depending on file type (single or paired)
   if [[ -f "${inp}/${1}_1.fq.gz" ]]; then
 
     # Paired end read annotation
-    mifaser -c $cpu -q -l "${inp}/${1}_1.fq.gz" "${inp}/${1}_2.fq.gz"  \
+    mifaser -c $cpus -q -l "${inp}/${1}_1.fq.gz" "${inp}/${1}_2.fq.gz"  \
       -o "${tmp}" -d "GS-21-all"
   else
     # Single read annotation
-    mifaser -c $cpu -q -f "${inp}/${1}.fq.gz" -o "${tmp}" -d "GS-21-all"
+    mifaser -c $cpus -q -f "${inp}/${1}.fq.gz" -o "${tmp}" -d "GS-21-all"
   fi
 
   # Compress files and move out of temp directory
@@ -46,6 +47,4 @@ else
   tar -C "${tmp}" -I "pigz -kp $cpu " -cf "${tmp}/${1}.tar.gz" "${1}"
   chmod 775 "${tmp}/${1}.tar.gz"
   mv "${tmp}/${1}.tar.gz" "${out}/."
-
-  log "  Finished with ${1}"
 fi
