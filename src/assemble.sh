@@ -17,11 +17,11 @@ cd $(dirname $(dirname $(readlink -f $0)))
 # Get number of CPUs from config file
 cpus=$(cat cpus.conf)
 
-# Create output directory
+# Set input and output
 inp="data/reads/trimmed"
 out="data/assemblies/complete"
 tmp=${out}"/.tmp-assemble-${1}"
-mkdir -p ${tmp}
+mkdir -m 775 -p ${tmp}
 trap "rm -rf ${tmp}" EXIT
 
 # Skip accession if already assembled
@@ -45,5 +45,6 @@ else
 
   # Compress assembly file and move it out of tmp directory
   pigz -p ${cpus} "${tmp}/assembly/final.contigs.fa"
+  chmod 775 "${tmp}/assembly/final.contigs.fa.gz"
   mv "${tmp}/assembly/final.contigs.fa.gz" "${out}/${1}.fa.gz"
 fi

@@ -14,15 +14,18 @@ log () {
 # Change to project base directory
 cd $(dirname $(dirname $(readlink -f $0)))
 
-# Create output directory
+# Get number of CPUs from config file
+cpus=$(cat cpus.conf)
+
+# Set input and output
 inp="data/reads/trimmed"
 out="data/functions"
 tmp=${out}"/.tmp-${1}"
-mkdir -p ${out}
+mkdir -m 775 -p ${out}
 trap "rm -rf ${tmp}" EXIT
 
 # Skip accession if already annotated
-if [[ -d "${out}/${1}" ]]; then
+if [[ -d "${out}/${1}.tar.gz" ]]; then
   log "  Skipping ${1}"
 else
 
@@ -30,15 +33,19 @@ else
   if [[ -f "${inp}/${1}_1.fq.gz" ]]; then
 
     # Paired end read annotation
-    mifaser -c 1 -q -l "${inp}/${1}_1.fq.gz" "${inp}/${1}_2.fq.gz"  \
+    mifaser -c $cpu -q -l "${inp}/${1}_1.fq.gz" "${inp}/${1}_2.fq.gz"  \
       -o "${tmp}" -d "GS-21-all"
   else
     # Single read annotation
-    mifaser -c 1 -q -f "${inp}/${1}.fq.gz" -o "${tmp}" -d "GS-21-all"
+    mifaser -c $cpu -q -f "${inp}/${1}.fq.gz" -o "${tmp}" -d "GS-21-all"
   fi
 
-  # Make output directory visible
-  mv "${tmp}" "${out}/${1}"
+  # Compress files and move out of temp directory
+  mkdir -p "${tmp}/${1}"
+  mv "${tmp}/"[^SRR]* "${tmp}/${1}/."
+  tar -C "${tmp}" -I "pigz -kp $cpu " -cf "${tmp}/${1}.tar.gz" "${1}"
+  chmod 775 "${tmp}/${1}.tar.gz"
+  mv "${tmp}/${1}.tar.gz" "${out}/."
 
   log "  Finished with ${1}"
 fi

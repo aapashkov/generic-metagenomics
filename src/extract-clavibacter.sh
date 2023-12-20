@@ -14,16 +14,13 @@ log () {
 # Change to project base directory
 cd $(dirname $(dirname $(readlink -f $0)))
 
-# Get number of CPUs from config file
-cpus=$(cat cpus.conf)
-
 # Set directories
 inp="data/reads/trimmed"
 koutput="data/taxonomy/read-level/${1}.output"
 kreport="data/taxonomy/read-level/${1}.report"
 out="data/reads/extracted/clavibacter"
 tmp=${out}"/.tmp-extract-clavibacter-${1}"
-mkdir -p ${tmp}
+mkdir -m 775 -p ${tmp}
 trap "rm -rf ${tmp}" EXIT
 
 # Skip accession if already extracted
@@ -55,6 +52,7 @@ else
 
   # Compress output files, and move them out of tmp directory
   gzip ${tmp}/${1}*.fq
+  chmod 775 ${tmp}/${1}*.fq.gz
   mv ${tmp}/${1}*.fq.gz ${out}/.
 
   log "  Finished with ${1}"

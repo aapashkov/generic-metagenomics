@@ -2,10 +2,10 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# ---------------------------------------------------
-# Download required databases (for Kraken 2 and RGI).
+# ---------------------------------------------------------
+# Download required databases (for Kraken 2 and antismash).
 # Usage: ./src/docker-run.sh src/download-dbs.sh
-# ---------------------------------------------------
+# ---------------------------------------------------------
 
 log () {
   echo "$(date +'%D %T:') ${1}" >&2
@@ -17,7 +17,7 @@ cd $(dirname $(dirname $(readlink -f $0)))
 # Create output directory
 out="data/databases"
 tmp=${out}"/.tmp-download-dbs"
-mkdir -p ${tmp}
+mkdir -m 775 -p ${tmp}
 trap "rm -rf ${tmp}" EXIT
 
 # Download Kraken2 database if it wasn't done so already
@@ -28,5 +28,6 @@ else
   log "  Downloading Kraken database"
   mkdir -p "${tmp}/krakenDB"
   wget -qO - "${url}" | tar -C "${tmp}/krakenDB" -xzf - 
+  chmod -R 775 "${tmp}/krakenDB"
   mv "${tmp}/krakenDB" "${out}/."
 fi

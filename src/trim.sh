@@ -14,7 +14,11 @@ log () {
 # Change to project base directory
 cd $(dirname $(dirname $(readlink -f $0)))
 
-# Create output directory
+# Get number of CPUs from config file
+cpus=$(cat cpus.conf)
+mcpus=$(expr ${cpus} / 4 + 1) # mifaser cpus
+
+# Set input and output
 out="data/reads/trimmed"
 tmp=${out}"/.tmp-trim-${1}"
 mkdir -p ${out}
@@ -25,7 +29,7 @@ if compgen -G "${out}/${1}*.fq.gz" > /dev/null; then
   log "  Skipping ${1}"
 else
   # Download accession files
-  fasterq-dump -q -O ${tmp} -t ${tmp} ${1} > /dev/null 2>&1
+  fasterq-dump -e ${cpus} -q -O ${tmp} -t ${tmp} ${1} > /dev/null 2>&1
   log "  Finished downloading ${1}"
 
   # Trim files depending on file type (single or paired)
@@ -33,14 +37,16 @@ else
 
     # Paired end mode trimming
     trim_galore --length 40 -o ${tmp} --basename ${1} --paired --gzip \
-      "${tmp}/${1}_1.fastq" "${tmp}/${1}_2.fastq" > /dev/null 2>&1
+      -j ${mcpus} "${tmp}/${1}_1.fastq" "${tmp}/${1}_2.fastq" > /dev/null 2>&1
+    chmod 775 "${tmp}/${1}_val_*.fq.gz"
     mv "${tmp}/${1}_val_1.fq.gz" "${out}/${1}_1.fq.gz"
     mv "${tmp}/${1}_val_2.fq.gz" "${out}/${1}_2.fq.gz"
   else
 
     # Single mode trimming
-    trim_galore --length 40 -o ${tmp} --basename ${1} --gzip \
+    trim_galore --length 40 -o ${tmp} --basename ${1} --gzip -j ${mcpus} \
       "${tmp}/${1}.fastq" > /dev/null 2>&1
+    chmod 775 "${tmp}/${1}_trimmed.fq.gz"
     mv "${tmp}/${1}_trimmed.fq.gz" "${out}/${1}.fq.gz"
   fi
 

@@ -14,12 +14,15 @@ log () {
 # Change to project base directory
 cd $(dirname $(dirname $(readlink -f $0)))
 
-# Create output directory
+# Get number of CPUs from config file
+cpus=$(cat cpus.conf)
+
+# Set input and output
 assemblies="data/assemblies/complete"
 reads="data/reads/trimmed"
 out="data/bins"
 tmp=${out}"/.tmp-bin-${1}"
-mkdir -p ${tmp}
+mkdir -m 775 -p ${tmp}
 trap "rm -rf ${tmp}" EXIT
 
 # Skip accession if already binned
@@ -47,6 +50,8 @@ else
   mkdir -p "${tmp}/${1}"
   mv ${tmp}/${1}.* "${tmp}/${1}/."
   tar -C "${tmp}" -czf "${tmp}/${1}.tar.gz" "${1}"
+  chmod 775 "${tmp}/${1}.tar.gz"
   mv "${tmp}/${1}.tar.gz" "${out}/."
+
   log "  Finished binning ${1}"
 fi
