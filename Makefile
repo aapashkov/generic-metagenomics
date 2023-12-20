@@ -69,3 +69,9 @@ extract-clavibacter: classify-reads
 > ./src/docker-run.sh rush -i accessions.txt -j $(cpus) ./src/extract-clavibacter.sh {}
 > @echo $(shell date +'%D %T:') Clavibacter extraction finished >&2
 .PHONY: extract-clavibacter
+
+bin: assemble
+> @echo $(shell date +'%D %T:') Binning started >&2
+> ./src/docker-run.sh rush -i accessions.txt -j $(cpus) ./src/bin.sh {}
+> @echo $(shell date +'%D %T:') Binning finished >&2
+.PHONY: bin
