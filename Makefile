@@ -42,36 +42,36 @@ download-dbs: build
 
 trim: build
 > @echo $(shell date +'%D %T:') Download and trimming started >&2
-> ./src/docker-run.sh rush -i accessions.txt -j $(cpus) ./src/trim.sh {}
+> ./src/docker-run.sh ./src/map.py ./src/trim.sh
 > @echo $(shell date +'%D %T:') Download and trimming finished >&2
 .PHONY: trim
 
 assemble: trim
 > @echo $(shell date +'%D %T:') Assembly started >&2
-> ./src/docker-run.sh rush -i accessions.txt -j 1 ./src/assemble.sh {}
+> ./src/docker-run.sh ./src/map.py ./src/assemble.sh
 > @echo $(shell date +'%D %T:') Assembly finished >&2
 .PHONY: assemble
 
 classify-reads: trim download-dbs
 > @echo $(shell date +'%D %T:') Classification started >&2
-> ./src/docker-run.sh rush -i accessions.txt -j $(cpus) ./src/classify-reads.sh {}
+> ./src/docker-run.sh ./src/map.py ./src/classify-reads.sh
 > @echo $(shell date +'%D %T:') Classification finished >&2
 .PHONY: classify-reads
 
 annotate-functions: trim
 > @echo $(shell date +'%D %T:') Functional annotation started >&2
-> ./src/docker-run.sh rush -i accessions.txt -j $(cpus) ./src/annotate-functions.sh {}
+> ./src/docker-run.sh ./src/map.py ./src/annotate-functions.sh
 > @echo $(shell date +'%D %T:') Functional annotation finished >&2
 .PHONY: annotate-functions
 
 extract-clavibacter: classify-reads
 > @echo $(shell date +'%D %T:') Clavibacter extraction started >&2
-> ./src/docker-run.sh rush -i accessions.txt -j $(cpus) ./src/extract-clavibacter.sh {}
+> ./src/docker-run.sh rush -i ./accessions.txt -j $(cpus) ./src/extract-clavibacter.sh {}
 > @echo $(shell date +'%D %T:') Clavibacter extraction finished >&2
 .PHONY: extract-clavibacter
 
 bin: assemble
 > @echo $(shell date +'%D %T:') Binning started >&2
-> ./src/docker-run.sh rush -i accessions.txt -j $(cpus) ./src/bin.sh {}
+> ./src/docker-run.sh ./src/map.py ./src/bin.sh
 > @echo $(shell date +'%D %T:') Binning finished >&2
 .PHONY: bin
