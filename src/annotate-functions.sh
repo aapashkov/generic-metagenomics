@@ -30,11 +30,11 @@ else
   if [[ -f "${inp}/${1}_1.fq.gz" ]]; then
 
     # Paired end read annotation
-    mifaser -q -l "${inp}/${1}_1.fq.gz" "${inp}/${1}_2.fq.gz"  \
+    mifaser -c 1 -q -l "${inp}/${1}_1.fq.gz" "${inp}/${1}_2.fq.gz"  \
       -o "${tmp}" -d "GS-21-all"
   else
     # Single read annotation
-    mifaser -q -f "${inp}/${1}.fq.gz" -o "${tmp}" -d "GS-21-all"
+    mifaser -c 1 -q -f "${inp}/${1}.fq.gz" -o "${tmp}" -d "GS-21-all"
   fi
 
   # Make output directory visible
