@@ -39,20 +39,20 @@ else
   if [[ -f "${inp}/${1}_1.fq.gz" ]]; then
 
     # Paired end read classification
-    kraken2 --db ${db} --gzip-compressed --paired \
+    kraken2 --db ${db} --gzip-compressed --paired --threads $cpus \
       --output ${output} --report ${report} \
       "${inp}/${1}_1.fq.gz" "${inp}/${1}_2.fq.gz" > /dev/null 2>&1
 
   else
 
     # Single read classification
-    kraken2 --db ${db} --gzip-compressed \
+    kraken2 --db ${db} --gzip-compressed --threads $cpus \
       --output ${output} --report ${report} \
       "${inp}/${1}.fq.gz" > /dev/null 2>&1
   fi
 
   # Compress output and report, and move them out of tmp directory
-  gzip ${output} ${report}
+  pigz -p $cpus ${output} ${report}
   chmod 775 ${output}.gz
   chmod 775 ${report}.gz
   mv ${output}.gz ${out}/.
