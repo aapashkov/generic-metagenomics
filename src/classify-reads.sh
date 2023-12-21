@@ -39,14 +39,14 @@ else
   if [[ -f "${inp}/${1}_1.fq.gz" ]]; then
 
     # Paired end read classification
-    kraken2 --db ${db} --gzip-compressed --memory-mapping --paired \
+    kraken2 --db ${db} --gzip-compressed --paired \
       --output ${output} --report ${report} \
       "${inp}/${1}_1.fq.gz" "${inp}/${1}_2.fq.gz" > /dev/null 2>&1
 
   else
 
     # Single read classification
-    kraken2 --db ${db} --gzip-compressed --memory-mapping \
+    kraken2 --db ${db} --gzip-compressed \
       --output ${output} --report ${report} \
       "${inp}/${1}.fq.gz" > /dev/null 2>&1
   fi
