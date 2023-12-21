@@ -53,7 +53,7 @@ else
   # Create and compress output directory
   mkdir -p "${tmp}/${1}"
   mv ${tmp}/${1}.* "${tmp}/${1}/."
-  tar -C "${tmp}" -I "pigz -kp $cpu " -cf "${tmp}/${1}.tar.gz" "${1}"
+  tar -C "${tmp}" -I "pigz -kp $cpus " -cf "${tmp}/${1}.tar.gz" "${1}"
   chmod 775 "${tmp}/${1}.tar.gz"
   mv "${tmp}/${1}.tar.gz" "${out}/."
 fi
