@@ -37,6 +37,7 @@ else
 
     # Paired end binning
     run_MaxBin.pl -contig "${assemblies}/${1}.fa.gz" \
+      -thread $cpus \
       -out "${tmp}/${1}" \
       -reads "${reads}/${1}_1.fq.gz" \
       -reads2 "${reads}/${1}_2.fq.gz" > /dev/null 2>&1 || true
@@ -44,6 +45,7 @@ else
 
     # Single binning
     run_MaxBin.pl -contig "${assemblies}/${1}.fa.gz" \
+      -thread $cpus \
       -out "${tmp}/${1}" \
       -reads "${reads}/${1}.fq.gz" > /dev/null 2>&1 || true
   fi
@@ -51,7 +53,7 @@ else
   # Create and compress output directory
   mkdir -p "${tmp}/${1}"
   mv ${tmp}/${1}.* "${tmp}/${1}/."
-  tar -C "${tmp}" -czf "${tmp}/${1}.tar.gz" "${1}"
+  tar -C "${tmp}" -I "pigz -kp $cpu " -cf "${tmp}/${1}.tar.gz" "${1}"
   chmod 775 "${tmp}/${1}.tar.gz"
   mv "${tmp}/${1}.tar.gz" "${out}/."
 fi

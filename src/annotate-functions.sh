@@ -34,11 +34,11 @@ else
   if [[ -f "${inp}/${1}_1.fq.gz" ]]; then
 
     # Paired end read annotation
-    mifaser -c $cpus -q -l "${inp}/${1}_1.fq.gz" "${inp}/${1}_2.fq.gz"  \
+    mifaser -t $cpus -q -l "${inp}/${1}_1.fq.gz" "${inp}/${1}_2.fq.gz"  \
       -o "${tmp}" -d "GS-21-all"
   else
     # Single read annotation
-    mifaser -c $cpus -q -f "${inp}/${1}.fq.gz" -o "${tmp}" -d "GS-21-all"
+    mifaser -t $cpus -q -f "${inp}/${1}.fq.gz" -o "${tmp}" -d "GS-21-all"
   fi
 
   # Compress files and move out of temp directory

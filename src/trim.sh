@@ -40,7 +40,8 @@ else
     # Paired end mode trimming
     trim_galore --length 40 -o ${tmp} --basename ${1} --paired --gzip \
       -j ${mcpus} "${tmp}/${1}_1.fastq" "${tmp}/${1}_2.fastq" > /dev/null 2>&1
-    chmod 775 "${tmp}/${1}_val_*.fq.gz"
+    chmod 775 "${tmp}/${1}_val_1.fq.gz"
+    chmod 775 "${tmp}/${1}_val_2.fq.gz"
     mv "${tmp}/${1}_val_1.fq.gz" "${out}/${1}_1.fq.gz"
     mv "${tmp}/${1}_val_2.fq.gz" "${out}/${1}_2.fq.gz"
   else
