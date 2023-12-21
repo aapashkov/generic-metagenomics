@@ -14,7 +14,7 @@ endif
 .RECIPEPREFIX = >
 
 # Complete pipeline, simply run "make"
-all: annotate-functions
+all: extract-clavibacter annotate-functions bin
 .PHONY: all
 
 
@@ -66,7 +66,7 @@ annotate-functions: trim
 
 extract-clavibacter: classify-reads
 > @echo $(shell date +'%D %T:') Clavibacter extraction started >&2
-> ./src/docker-run.sh rush -i ./accessions.txt -j $(cpus) ./src/extract-clavibacter.sh {}
+> ./src/docker-run.sh ./src/map.py -p $(cpus) ./src/extract-clavibacter.sh
 > @echo $(shell date +'%D %T:') Clavibacter extraction finished >&2
 .PHONY: extract-clavibacter
 
