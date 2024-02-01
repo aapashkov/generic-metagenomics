@@ -75,3 +75,9 @@ bin: assemble
 > ./src/docker-run.sh ./src/map.py ./src/bin.sh
 > @echo $(shell date +'%D %T:') Binning finished >&2
 .PHONY: bin
+
+annotate-bgcs: bin
+> @echo $(shell date +'%D %T:') BGC annotation started >&2
+> ./src/docker-run.sh ./src/map.py ./src/annotate-bgcs.sh
+> @echo $(shell date +'%D %T:') BGC annotation finished >&2
+.PHONY: annotate-bgcs
