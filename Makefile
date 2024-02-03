@@ -81,3 +81,9 @@ annotate-bgcs: bin
 > ./src/docker-run.sh ./src/map.py ./src/annotate-bgcs.sh
 > @echo $(shell date +'%D %T:') BGC annotation finished >&2
 .PHONY: annotate-bgcs
+
+annotate-amr: bin
+> @echo $(shell date +'%D %T:') AMR annotation started >&2
+> ./src/docker-run.sh ./src/map.py ./src/annotate-amr.sh
+> @echo $(shell date +'%D %T:') AMR annotation finished >&2
+.PHONY: annotate-amr
