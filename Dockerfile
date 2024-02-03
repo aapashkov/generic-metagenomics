@@ -18,11 +18,12 @@ RUN mkdir -p /home/mnt && \
     micromamba clean -ya && \
     rm /tmp/env.yml /tmp/rgi.yml
 
-# Add RGI to PATH and load CARD database
-RUN ln -s /opt/conda/envs/rgi/bin/rgi /opt/conda/bin/rgi && \
+# Add RGI to PATH
+RUN echo "micromamba run -n rgi rgi \$@" > /opt/conda/bin/rgi && \
+    chmod +x /opt/conda/bin/rgi && \
     wget -qO - "https://card.mcmaster.ca/download/0/broadstreet-v3.2.8.tar.bz2" | \
         tar -C /tmp/ -xjf - ./card.json && \
-    /opt/conda/bin/rgi load -i /tmp/card.json && \
+    /opt/conda/envs/rgi/bin/rgi load -i /tmp/card.json && \
     rm /tmp/card.json
 
 WORKDIR /home/mnt
