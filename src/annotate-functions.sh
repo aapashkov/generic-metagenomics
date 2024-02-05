@@ -14,9 +14,6 @@ log () {
 # Change to project base directory
 cd $(dirname $(dirname $(readlink -f $0)))
 
-# Get number of CPUs from config file
-cpus=$(cat cpus.conf)
-
 # Set input and output
 inp="data/reads/trimmed"
 out="data/functions"
@@ -34,17 +31,17 @@ else
   if [[ -f "${inp}/${1}_1.fq.gz" ]]; then
 
     # Paired end read annotation
-    mifaser -t $cpus -q -l "${inp}/${1}_1.fq.gz" "${inp}/${1}_2.fq.gz"  \
-      -o "${tmp}" -d "GS-21-all"
+    mifaser -s 0 -S 0 -q -o "${tmp}" -d "GS-21-all" \
+      -l "${inp}/${1}_1.fq.gz" "${inp}/${1}_2.fq.gz"
   else
     # Single read annotation
-    mifaser -t $cpus -q -f "${inp}/${1}.fq.gz" -o "${tmp}" -d "GS-21-all"
+    mifaser -s 0 -S 0 -q -f "${inp}/${1}.fq.gz" -o "${tmp}" -d "GS-21-all"
   fi
 
-  # Compress files and move out of temp directory
+  # Compress files and move them out of temp directory
   mkdir -p "${tmp}/${1}"
-  mv "${tmp}/"[^SRR]* "${tmp}/${1}/."
-  tar -C "${tmp}" -I "pigz -kp $cpus " -cf "${tmp}/${1}.tar.gz" "${1}"
+  ls -p "${tmp}/"* | grep -v / | xargs -I {} mv {} "${tmp}/${1}/."
+  tar -C "${tmp}" -zcf "${tmp}/${1}.tar.gz" "${1}"
   chmod 775 "${tmp}/${1}.tar.gz"
   mv "${tmp}/${1}.tar.gz" "${out}/."
 fi
