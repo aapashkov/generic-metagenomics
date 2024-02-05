@@ -14,9 +14,6 @@ log () {
 # Change to project base directory
 cd $(dirname $(dirname $(readlink -f $0)))
 
-# Get number of CPUs from config file
-cpus=$(cat cpus.conf)
-
 # Set input and output
 database="data/databases/antismashDB"
 inp="data/bins"
@@ -37,7 +34,7 @@ else
 
     base=$(basename "${file}" .fasta)
 
-    antismash -c "${cpus}" \
+    antismash -c 1 \
       --output-dir "${tmp}/${1}/${base}" \
       --output-basename "${base}" \
       --genefinding-tool prodigal-m \
@@ -48,7 +45,7 @@ else
 
   # Compress into archive and move it out of temporary directory
   rm "${tmp}/${1}/"*.fasta
-  tar -C "${tmp}/" -I "pigz -kp $cpus " -cf "${tmp}/${1}.tar.gz" "${1}"
+  tar -C "${tmp}/" -zcf "${tmp}/${1}.tar.gz" "${1}"
   mv "${tmp}/${1}.tar.gz" "${out}/."
 
 fi
