@@ -42,48 +42,48 @@ download-dbs: build
 
 trim: build
 > @echo $(shell date +'%D %T:') Download and trimming started >&2
-> cat accessions.txt | xargs -P $(cpus) ./src/docker-run.sh ./src/trim.sh
+> ./src/docker-run.sh xargs -a accessions.txt -I {} -P $(cpus) ./src/trim.sh {}
 > @echo $(shell date +'%D %T:') Download and trimming finished >&2
 .PHONY: trim
 
 assemble: trim
 > @echo $(shell date +'%D %T:') Assembly started >&2
-> cat accessions.txt | xargs ./src/docker-run.sh ./src/assemble.sh
+> ./src/docker-run.sh xargs -a accessions.txt -I {} ./src/assemble.sh {}
 > @echo $(shell date +'%D %T:') Assembly finished >&2
 .PHONY: assemble
 
 classify-reads: trim download-dbs
 > @echo $(shell date +'%D %T:') Classification started >&2
-> cat accessions.txt | xargs -P $(cpus) ./src/docker-run.sh ./src/classify-reads.sh
+> ./src/docker-run.sh xargs -a accessions.txt -I {} -P $(cpus) ./src/classify-reads.sh {}
 > @echo $(shell date +'%D %T:') Classification finished >&2
 .PHONY: classify-reads
 
 annotate-functions: trim
 > @echo $(shell date +'%D %T:') Functional annotation started >&2
-> cat accessions.txt | xargs -P $(cpus) ./src/docker-run.sh ./src/annotate-functions.sh
+> ./src/docker-run.sh xargs -a accessions.txt -I {} -P $(cpus) ./src/annotate-functions.sh {}
 > @echo $(shell date +'%D %T:') Functional annotation finished >&2
 .PHONY: annotate-functions
 
 extract-clavibacter: classify-reads
 > @echo $(shell date +'%D %T:') Clavibacter extraction started >&2
-> cat accessions.txt | xargs -P $(cpus) ./src/docker-run.sh ./src/extract-clavibacter.sh
+> ./src/docker-run.sh xargs -a accessions.txt -I {} -P $(cpus) ./src/extract-clavibacter.sh {}
 > @echo $(shell date +'%D %T:') Clavibacter extraction finished >&2
 .PHONY: extract-clavibacter
 
 bin: assemble
 > @echo $(shell date +'%D %T:') Binning started >&2
-> cat accessions.txt | xargs -P $(cpus) ./src/docker-run.sh ./src/bin.sh
+> ./src/docker-run.sh xargs -a accessions.txt -I {} -P $(cpus) ./src/bin.sh {}
 > @echo $(shell date +'%D %T:') Binning finished >&2
 .PHONY: bin
 
 annotate-bgcs: bin download-dbs
 > @echo $(shell date +'%D %T:') BGC annotation started >&2
-> cat accessions.txt | xargs -P $(cpus) ./src/docker-run.sh ./src/annotate-bgcs.sh
+> ./src/docker-run.sh xargs -a accessions.txt -I {} -P $(cpus) ./src/annotate-bgcs.sh {}
 > @echo $(shell date +'%D %T:') BGC annotation finished >&2
 .PHONY: annotate-bgcs
 
 annotate-amr: bin download-dbs
 > @echo $(shell date +'%D %T:') AMR annotation started >&2
-> cat accessions.txt | xargs -P $(cpus) ./src/docker-run.sh ./src/annotate-amr.sh
+> ./src/docker-run.sh xargs -a accessions.txt -I {} -P $(cpus) ./src/annotate-amr.sh {}
 > @echo $(shell date +'%D %T:') AMR annotation finished >&2
 .PHONY: annotate-amr
