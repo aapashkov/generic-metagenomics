@@ -2,13 +2,13 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# ----------------------------------------------------------------
-# Annotate reads with mifaser.
-# Usage: ./src/docker-run.sh src/annotate-functions.sh [accession]
-# ----------------------------------------------------------------
+# -----------------------------------------------------------
+# Annotate BGCs with antiSMASH.
+# Usage: ./src/docker-run.sh src/annotate-bgcs.sh [accession]
+# -----------------------------------------------------------
 
 log () {
-  echo "$(date +'%D %T:') ${1}" >&2
+  echo "$(TZ=America/Mexico_City date +'%D %T:') ${1}" >&2
 }
 
 # Change to project base directory
@@ -26,7 +26,6 @@ trap "rm -rf ${tmp}" EXIT
 if [[ -f "${out}/${1}.tar.gz" ]]; then
   log "  Skipping ${1}"
 else
-  log "  Annotating BGCs of ${1}"
 
   # Decompress .fasta files from tar.gz and annotate them
   tar -C "${tmp}" -vzxf "${inp}/${1}.tar.gz" --wildcards "*.fasta" \
@@ -48,4 +47,5 @@ else
   tar -C "${tmp}/" -zcf "${tmp}/${1}.tar.gz" "${1}"
   mv "${tmp}/${1}.tar.gz" "${out}/."
 
+  log "  Finished with ${1}"
 fi

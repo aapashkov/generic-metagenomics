@@ -8,7 +8,7 @@ IFS=$'\n\t'
 # ------------------------------------------------------
 
 log () {
-  echo "$(date +'%D %T:') ${1}" >&2
+  echo "$(TZ=America/Mexico_City date +'%D %T:') ${1}" >&2
 }
 
 # Change to project base directory
@@ -34,12 +34,12 @@ else
   if [[ -f "${inp}/${1}_1.fq.gz" ]]; then
 
     # Paired end assembly
-    megahit -1 "${inp}/${1}_1.fq.gz" -2 "${inp}/${1}_2.fq.gz" -t ${cpus} \
+    megahit -1 "${inp}/${1}_1.fq.gz" -2 "${inp}/${1}_2.fq.gz" -t "${cpus}" \
       -o "${tmp}/assembly" --tmp-dir "${tmp}" > /dev/null 2>&1
   else
 
     # Single assembly
-    megahit -r "${inp}/${1}.fq.gz" -t ${cpus} -o "${tmp}/assembly" \
+    megahit -r "${inp}/${1}.fq.gz" -t "${cpus}" -o "${tmp}/assembly" \
       --tmp-dir "${tmp}" > /dev/null 2>&1
   fi
 

@@ -8,7 +8,7 @@ IFS=$'\n\t'
 # -----------------------------------------------------------------
 
 log () {
-  echo "$(date +'%D %T:') ${1}" >&2
+  echo "$(TZ=America/Mexico_City date +'%D %T:') ${1}" >&2
 }
 
 # Change to project base directory
