@@ -35,14 +35,14 @@ else
 
     # Paired end read classification
     kraken2 --db ${db} --gzip-compressed --paired --threads 1 \
-      --output ${output} --report ${report} \
+      --output ${output} --report ${report} --memory-mapping \
       "${inp}/${1}_1.fq.gz" "${inp}/${1}_2.fq.gz" > /dev/null 2>&1
 
   else
 
     # Single read classification
     kraken2 --db ${db} --gzip-compressed --threads 1 \
-      --output ${output} --report ${report} \
+      --output ${output} --report ${report} --memory-mapping \
       "${inp}/${1}.fq.gz" > /dev/null 2>&1
   fi
 
