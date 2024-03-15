@@ -28,9 +28,19 @@ if [[ -f "${out}/${1}.tar.gz" ]]; then
   log "  Skipping ${1}"
 else
 
-  # Decompress .fasta files from tar.gz and annotate them
-  tar -C "${tmp}" -vzxf "${inp}/${1}.tar.gz" --wildcards "*.fasta" \
-    | while read file; do
+  # Try to extract .fasta files from tar.gz
+  fastas=$(tar -C "${tmp}" -vzxf "${inp}/${1}.tar.gz" --wildcards "*.fasta" \
+    2> /dev/null || :)
+
+  # Produce empty output if no fasta files are found
+  if test -z "${fastas}"; then
+    log "  No fasta files found in ${1}, producing empty output"
+    touch "${out}/${1}-empty.tar.gz"
+    exit 0
+  fi
+
+  # Annotate extracted fasta files
+  echo "${fastas}" | while read file; do
 
     base=$(basename "${file}" .fasta)
     "$rgi" main -i "${tmp}/${file}" \
