@@ -56,6 +56,7 @@ dependencies:
 - gfortran_impl_linux-64=11.2.0=h7a446d4_16
 - ghostscript=9.18=1
 - giflib=5.2.1=h5eee18b_3
+- git=2.38.1=pl5321h5fbbf19_0
 - glib=2.74.1=h6239696_0
 - glib-tools=2.74.1=h6239696_0
 - glimmerhmm=3.0.4=pl5321h87f3376_5

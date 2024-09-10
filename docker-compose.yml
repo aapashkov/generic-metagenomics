@@ -1,0 +1,8 @@
+services:
+  pipeline:
+    image: "aapashkov/generic-metagenomics"
+    working_dir: "/home/mnt"
+    user: "${UID}:${GID}"
+    volumes:
+      - ./:/home/mnt
+    command: "make"
