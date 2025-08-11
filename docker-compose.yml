@@ -1,6 +1,6 @@
 services:
   pipeline:
-    image: "aapashkov/generic-metagenomics"
+    image: "aapashkov/rhizosphere"
     working_dir: "/home/mnt"
     user: "${UID}:${GID}"
     volumes:
