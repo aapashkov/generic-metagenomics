@@ -1,4 +1,4 @@
-# Generic metagenomics: A general purpose pipeline for metagenomics analyses
+# Generic metagenomics: A general purpose pipeline for metagenomics analyses (rhizosphere branch)
 
 > [!CAUTION]
 > **This pipeline is still experimental**. Use at your own risk.
@@ -42,6 +42,7 @@ file structure like the following:
 │   ├── 📁 assemblies/      # Assembled metagenomes
 │   ├── 📁 bgcs/            # Predicted biosynthetic gene clusters
 │   ├── 📁 bins/            # Metagenomic bins
+│   ├── 📁 checks/          # Bin quality checks
 │   ├── 📁 databases/       # All required reference databases
 │   ├── 📁 functions/       # Functional profiles per sample
 │   ├── 📁 reads/           # Metagenomic reads
