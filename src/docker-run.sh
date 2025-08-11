@@ -15,12 +15,14 @@ name="rhizosphere-$$$RANDOM"
 echo $name >&2
 
 # Run in interactive mode if no command was passed
+# shellcheck disable=SC2199
 if [[ -z $@ ]]; then
-  docker run --name $name -u mambauser:$(id -g) --rm \
-    -itv $(pwd):/home/mnt "aapashkov/rhizosphere"
+  docker run --name $name -u "mambauser:$(id -g)" --rm \
+    -itv "$(pwd):/home/mnt" "aapashkov/rhizosphere"
 
 # Else, run command as specified
 else
-  docker run --name $name -u mambauser:$(id -g) --rm \
-    -v $(pwd):/home/mnt "aapashkov/rhizosphere" $@
+  # shellcheck disable=SC2068
+  docker run --name $name -u "mambauser:$(id -g)" --rm \
+    -v "$(pwd):/home/mnt" "aapashkov/rhizosphere" $@
 fi
