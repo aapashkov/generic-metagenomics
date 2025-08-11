@@ -18,7 +18,6 @@ cd $(dirname $(dirname $(readlink -f $0)))
 inp=$(readlink -f "data/bins")
 out=$(readlink -f "data/amr")
 tmp="${out}/.tmp-${1}"
-rgi="/opt/conda/envs/rgi/bin/rgi"
 mkdir -m 775 -p "${tmp}"
 trap "rm -rf ${tmp}" EXIT
 cd "data/databases"
@@ -43,7 +42,7 @@ else
   echo "${fastas}" | while read file; do
 
     base=$(basename "${file}" .fasta)
-    "$rgi" main -i "${tmp}/${file}" \
+    micromamba run -n rgi rgi main -i "${tmp}/${file}" \
       -o "${tmp}/${1}/${base}" \
       -a DIAMOND \
       -n 1 \
