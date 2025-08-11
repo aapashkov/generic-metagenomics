@@ -2,10 +2,10 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# ---------------------------------------------------------
-# Download required databases (for Kraken 2 and antismash).
+# ----------------------------------------------
+# Download required databases.
 # Usage: ./src/docker-run.sh src/download-dbs.sh
-# ---------------------------------------------------------
+# ----------------------------------------------
 
 log () {
   echo "$(date +'%D %T:') ${1}" >&2
@@ -17,7 +17,6 @@ cd $(dirname $(dirname $(readlink -f $0)))
 # Create output directory
 out="data/databases"
 tmp=${out}"/.tmp-download-dbs"
-rgi="/opt/conda/envs/rgi/bin/rgi"
 mkdir -m 775 -p ${tmp}
 trap "rm -rf ${tmp}" EXIT
 
@@ -53,8 +52,31 @@ else
   cd "${tmp}"
   url="https://card.mcmaster.ca/download/0/broadstreet-v3.2.8.tar.bz2"
   wget -qO - "${url}" | tar -xjf - ./card.json
-  "$rgi" load --local -i card.json
+  micromamba run -n rgi rgi load --local -i card.json
   rm card.json
   mv localDB "${current}/${out}/."
   cd "${current}"
+fi
+
+# Download CheckM database if it wasn't done so already
+if [[ -d "${out}/checkmDB" ]]; then
+  log "  Skipping CheckM database download"
+else
+  log "  Downloading CheckM database"
+  mkdir -p "${tmp}/checkmDB"
+  url="https://data.ace.uq.edu.au/public/CheckM_databases/checkm_data_2015_01_16.tar.gz"
+  wget -qO - "${url}" | tar -C "${tmp}/checkmDB" -xzf - 
+  chmod -R 775 "${tmp}/checkmDB"
+  mv "${tmp}/checkmDB" "${out}/."
+fi
+
+# Download GDTB if it wasn't done so already
+if [[ -d "${out}/GTDB" ]]; then
+  log "  Skipping GTDB download"
+else
+  log "  Downloading GTDB"
+  url="https://data.ace.uq.edu.au/public/gtdb/data/releases/release220/220.0/auxillary_files/gtdbtk_package/full_package/gtdbtk_r220_data.tar.gz"
+  wget -qO - "${url}" | tar -C "${tmp}" -xzf - 
+  chmod -R 775 "${tmp}/release220"
+  mv "${tmp}/release220" "${out}/GTDB"
 fi
