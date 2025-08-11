@@ -13,7 +13,7 @@ ifeq ($(origin .RECIPEPREFIX), undefined)
 endif
 .RECIPEPREFIX = >
 
-all: extract-clavibacter annotate-functions annotate-bgcs annotate-amr
+all: extract-clavibacter annotate-functions annotate-bgcs annotate-amr check-bins
 .PHONY: all
 
 download-dbs:
@@ -66,3 +66,9 @@ annotate-amr: bin download-dbs
 > @xargs -a accessions.txt -I {} -P $(cpus) bash ./src/annotate-amr.sh {}
 > @echo $(shell date +'%D %T:') AMR annotation finished >&2
 .PHONY: annotate-amr
+
+check-bins: bin download-dbs
+> @echo $(shell date +'%D %T:') Bin check started >&2
+> @xargs -a accessions.txt -I {} -P $(cpus) bash ./src/check-bins.sh {}
+> @echo $(shell date +'%D %T:') Bin check finished >&2
+.PHONY: check-bins
