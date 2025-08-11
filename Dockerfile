@@ -1,5 +1,6 @@
 FROM mambaorg/micromamba:1.5.9-jammy
 
+ENV MAMBA_DISABLE_LOCKFILE=TRUE
 COPY --chown=$MAMBA_USER:$MAMBA_USER env/*.yml /tmp/
 
 RUN mkdir -p /home/mnt && \
