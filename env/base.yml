@@ -27,6 +27,7 @@ dependencies:
 - c-ares=1.19.1=h5eee18b_0
 - ca-certificates=2023.08.22=h06a4308_0
 - cairo=1.16.0=hb05425b_5
+- capnproto=1.0.2=hfc55251_1
 - cffi=1.16.0=py39h5eee18b_0
 - click=8.1.7=py39h06a4308_0
 - contourpy=1.0.5=py39hdb19cb5_0
@@ -52,6 +53,7 @@ dependencies:
 - freetype=2.12.1=h4a9f257_0
 - fribidi=1.0.10=h7b6447c_0
 - gcc_impl_linux-64=11.2.0=h1234567_1
+- gdbm=1.18=h0a1914f_2
 - gettext=0.21.1=h27087fc_0
 - gfortran_impl_linux-64=11.2.0=h7a446d4_16
 - ghostscript=9.18=1
@@ -60,6 +62,7 @@ dependencies:
 - glib=2.74.1=h6239696_0
 - glib-tools=2.74.1=h6239696_0
 - glimmerhmm=3.0.4=pl5321h87f3376_5
+- gmp=6.3.0=hac33072_2
 - graphite2=1.3.14=h295c915_1
 - gsl=2.7.1=h6e86dc7_1
 - gxx_impl_linux-64=11.2.0=h1234567_1
@@ -80,6 +83,7 @@ dependencies:
 - jsonschema-specifications=2023.7.1=py39h06a4308_0
 - kernel-headers_linux-64=3.10.0=h57e8cba_10
 - kiwisolver=1.4.4=py39h6a678d5_0
+- kofamscan=1.3.0=hdfd78af_2
 - kraken-biom=1.2.0=pyh5e36f6f_0
 - kraken2=2.1.3=pl5321hdcf5f25_0
 - krakentools=1.2=pyh5e36f6f_0
@@ -91,6 +95,7 @@ dependencies:
 - libbrotlicommon=1.0.9=h5eee18b_7
 - libbrotlidec=1.0.9=h5eee18b_7
 - libbrotlienc=1.0.9=h5eee18b_7
+- libcblas=3.9.0=20_linux64_openblas
 - libcurl=8.1.1=h91b91d3_0
 - libdeflate=1.8=h7f8727e_5
 - libedit=3.1.20221030=h5eee18b_0
@@ -145,6 +150,7 @@ dependencies:
 - packaging=23.1=py39h06a4308_0
 - pandas=2.0.3=py39h1128e8f_0
 - pango=1.50.14=hd33c08f_0
+- parallel=20240522=ha770c72_0
 - pbzip2=1.1.13=h1fcc475_2
 - pcre=8.45=h295c915_0
 - pcre2=10.37=he7ceb23_1
@@ -230,6 +236,7 @@ dependencies:
 - pillow=10.0.1=py39ha6cbd5a_0
 - pip=23.3=py39h06a4308_0
 - pixman=0.40.0=h7f8727e_1
+- pplacer=1.1.alpha19=h9ee0642_2
 - prodigal=2.6.3=h031d066_6
 - pycparser=2.21=pyhd3eb1b0_0
 - pyparsing=3.0.9=py39h06a4308_0
@@ -250,12 +257,14 @@ dependencies:
 - readline=8.2=h5eee18b_0
 - referencing=0.30.2=py39h06a4308_0
 - rpds-py=0.10.6=py39hb02cf49_0
+- ruby=3.1.2=h22ca3a2_0
 - scikit-learn=1.3.0=py39h1128e8f_0
 - scipy=1.11.3=py39heeff2f4_0
 - sed=4.8=h7b6447c_0
 - seqtk=1.4=he4a0461_1
 - setuptools=68.0.0=py39h06a4308_0
 - six=1.16.0=pyhd3eb1b0_1
+- skani=0.2.1=h4ac6f70_0
 - sqlite=3.41.2=h5eee18b_0
 - sra-tools=3.0.10=h9f5acd7_0
 - sysroot_linux-64=2.17=h57e8cba_10
@@ -284,4 +293,6 @@ dependencies:
 - zstd=1.5.5=hc292b87_0
 - pip:
   - git+https://bitbucket.org/bromberglab/mifaser.git@bbd1ca1d093d8a26060ee83daf2d7f3f5e88bfd0
+  - checkm-genome==1.2.2
+  - gtdbtk==2.4.0
 
