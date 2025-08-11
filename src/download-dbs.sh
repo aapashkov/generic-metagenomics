@@ -17,6 +17,7 @@ cd $(dirname $(dirname $(readlink -f $0)))
 # Create output directory
 out="data/databases"
 tmp=${out}"/.tmp-download-dbs"
+rgi="/opt/conda/envs/rgi/bin/rgi"
 mkdir -m 775 -p ${tmp}
 trap "rm -rf ${tmp}" EXIT
 
@@ -52,7 +53,7 @@ else
   cd "${tmp}"
   url="https://card.mcmaster.ca/download/0/broadstreet-v3.2.8.tar.bz2"
   wget -qO - "${url}" | tar -xjf - ./card.json
-  rgi load --local -i card.json
+  "$rgi" load --local -i card.json
   rm card.json
   mv localDB "${current}/${out}/."
   cd "${current}"
